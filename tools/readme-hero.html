@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Study Helper · README 主视觉</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1600px; height: 900px; overflow: hidden; }
+  body { font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+         background: #FAFCFD; color: #23361A; position: relative; }
+  .blob1 { position: absolute; width: 700px; height: 700px; border-radius: 50%;
+           background: #E4EC81; opacity: .4; top: -260px; right: -200px; }
+  .blob2 { position: absolute; width: 520px; height: 520px; border-radius: 50%;
+           background: #9BC43C; opacity: .15; bottom: -200px; left: -160px; }
+  .wrap { position: relative; height: 100%; display: grid; grid-template-columns: 640px 1fr;
+          gap: 40px; padding: 80px 90px 70px; }
+  .left { display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 24px; }
+  .brand img { width: 110px; height: 110px; border-radius: 26px; box-shadow: 0 12px 28px rgba(27,105,60,.2); }
+  .brand .nm { font-size: 56px; font-weight: 900; }
+  .brand .tg { font-size: 25px; color: #56992F; font-weight: 700; margin-top: 8px; letter-spacing: 1px; }
+  h1 { margin-top: 70px; font-size: 84px; font-weight: 900; line-height: 1.28; letter-spacing: 2px; }
+  h1 em { font-style: normal; color: #1B693C;
+          background: linear-gradient(transparent 68%, #E4EC81 68% 96%, transparent 96%); }
+  .lead { margin-top: 34px; font-size: 32px; font-weight: 600; opacity: .82; line-height: 1.7; }
+  .chips { margin-top: auto; display: flex; flex-wrap: wrap; gap: 16px; }
+  .chips span { font-size: 24px; font-weight: 700; border-radius: 999px; padding: 12px 26px;
+                background: #fff; border: 2px solid rgba(27,105,60,.16); box-shadow: 0 6px 14px rgba(35,54,26,.06); }
+  .chips span i { font-style: normal; margin-right: 8px; }
+
+  /* 右侧界面示意 */
+  .mock { background: #fff; border-radius: 26px; overflow: hidden; align-self: center; width: 100%;
+          box-shadow: 0 30px 70px rgba(35,54,26,.18), 0 6px 16px rgba(35,54,26,.08);
+          border: 1px solid rgba(27,105,60,.1); }
+  .mock .bar { height: 56px; background: #F1F6EF; display: flex; align-items: center; gap: 11px; padding: 0 24px; }
+  .mock .bar i { width: 15px; height: 15px; border-radius: 50%; display: block; }
+  .mock .bar i:nth-child(1){ background:#E4EC81 } .mock .bar i:nth-child(2){ background:#9BC43C } .mock .bar i:nth-child(3){ background:#56992F }
+  .mock .bar span { margin-left: 12px; font-size: 20px; color: #56992F; font-weight: 700; }
+  .mock .body { display: grid; grid-template-columns: 210px 1fr; height: 600px; }
+  .side { background: #FAFCFD; border-right: 1px solid rgba(27,105,60,.08); padding: 22px 18px; }
+  .side .it { height: 52px; border-radius: 13px; display: flex; align-items: center; gap: 12px;
+              padding: 0 16px; font-size: 22px; font-weight: 600; opacity: .78; margin-bottom: 9px; }
+  .side .it i { width: 22px; height: 22px; border-radius: 7px; background: #E4EC81; display: block; }
+  .side .it.on { background: #1B693C; color: #fff; opacity: 1; box-shadow: 0 8px 18px rgba(27,105,60,.28); }
+  .main { padding: 24px 26px; display: flex; flex-direction: column; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .card { background: #FAFCFD; border: 1px solid rgba(27,105,60,.1); border-radius: 15px; padding: 16px 18px; }
+  .card .k { font-size: 18px; opacity: .6; font-weight: 600; }
+  .card .v { font-size: 33px; font-weight: 900; margin-top: 6px; }
+  .card .v small { font-size: 17px; font-weight: 600; opacity: .6; margin-left: 3px; }
+  .c1 .v { color: #1B693C; } .c2 .v { color: #56992F; } .c3 .v { color: #115566; }
+  .hm { margin-top: 16px; background: #FAFCFD; border: 1px solid rgba(27,105,60,.1);
+        border-radius: 15px; padding: 17px 20px; flex: 1; }
+  .hm .k { font-size: 18px; opacity: .6; font-weight: 600; margin-bottom: 13px; }
+  .hm .grid { display: grid; grid-template-columns: repeat(22, 1fr); gap: 6px; }
+  .hm .grid i { display: block; aspect-ratio: 1; border-radius: 3px; }
+  .prog { margin-top: 16px; background: #1B693C; border-radius: 15px; padding: 16px 20px;
+          display: flex; align-items: center; gap: 16px; color: #fff; }
+  .prog .t { font-size: 21px; font-weight: 700; white-space: nowrap; }
+  .prog .track { flex: 1; height: 13px; border-radius: 7px; background: rgba(255,255,255,.22); overflow: hidden; }
+  .prog .fill { width: 72%; height: 100%; border-radius: 7px; background: #E4EC81; }
+  .prog .pct { font-size: 22px; font-weight: 900; }
+</style>
+</head>
+<body>
+  <div class="blob1"></div><div class="blob2"></div>
+  <div class="wrap">
+    <div class="left">
+      <div class="brand">
+        <img src="../build/icon-src/icon-512.png" alt="logo">
+        <div><div class="nm">Study Helper</div><div class="tg">个人学习档案 · Windows 桌面端</div></div>
+      </div>
+      <h1>我的学习记录<br>终于<em>不散装</em>了</h1>
+      <div class="lead">目标 · 学习路线 · 资料库 · 便签墙 · 打卡，<br>一个应用全装下。</div>
+      <div class="chips">
+        <span><i style="color:#56992F">●</i>数据 100% 本地</span>
+        <span><i style="color:#115566">●</i>不登录不上传</span>
+        <span><i style="color:#1B693C">●</i>Electron 37 · SQLite</span>
+        <span><i style="color:#C4866D">●</i>免费使用</span>
+      </div>
+    </div>
+    <div class="mock">
+      <div class="bar"><i></i><i></i><i></i><span>Study Helper</span></div>
+      <div class="body">
+        <div class="side">
+          <div class="it"><i></i>概览</div>
+          <div class="it on"><i></i>学习目标</div>
+          <div class="it"><i></i>学习路线</div>
+          <div class="it"><i></i>资料库</div>
+          <div class="it"><i></i>便签墙</div>
+          <div class="it"><i></i>统计</div>
+        </div>
+        <div class="main">
+          <div class="cards">
+            <div class="card c1"><div class="k">本月学习</div><div class="v">1,246<small>分钟</small></div></div>
+            <div class="card c2"><div class="k">连续打卡</div><div class="v">18<small>天</small></div></div>
+            <div class="card c3"><div class="k">归档资料</div><div class="v">57<small>份</small></div></div>
+          </div>
+          <div class="hm"><div class="k">学习热力图</div><div class="grid" id="hm"></div></div>
+          <div class="prog">
+            <div class="t">Java 自学大纲 2026</div>
+            <div class="track"><div class="fill"></div></div>
+            <div class="pct">72%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+  var lv = ['#EDF2E3', '#E4EC81', '#C6DE84', '#9BC43C', '#56992F', '#1B693C'];
+  var seed = 7;
+  function rnd() { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; }
+  var g = document.getElementById('hm');
+  for (var r = 0; r < 5; r++) for (var c = 0; c < 22; c++) {
+    var i = document.createElement('i');
+    var x = rnd();
+    i.style.background = lv[x < .18 ? 0 : x < .4 ? 1 : x < .6 ? 2 : x < .78 ? 3 : x < .92 ? 4 : 5];
+    g.appendChild(i);
+  }
+</script>
+</body>
+</html>

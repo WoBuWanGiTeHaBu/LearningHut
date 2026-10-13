@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Study Helper · 小红书封面</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1242px; height: 1656px; overflow: hidden; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+    background: #FAFCFD;
+    color: #23361A;
+    position: relative;
+  }
+  /* 纸感底纹：大圆角色块点缀 */
+  .blob1 { position: absolute; width: 620px; height: 620px; border-radius: 50%;
+           background: #E4EC81; opacity: .38; top: -230px; right: -190px; }
+  .blob2 { position: absolute; width: 460px; height: 460px; border-radius: 50%;
+           background: #9BC43C; opacity: .16; bottom: -170px; left: -150px; }
+
+  .wrap { position: relative; padding: 78px 84px 0; height: 100%; display: flex; flex-direction: column; }
+
+  /* ── 头部：logo + 名称 ── */
+  .head { display: flex; align-items: center; gap: 26px; }
+  .head img { width: 108px; height: 108px; border-radius: 26px; box-shadow: 0 10px 26px rgba(27,105,60,.18); }
+  .head .name { font-size: 52px; font-weight: 800; letter-spacing: .5px; }
+  .head .tag { margin-top: 8px; font-size: 26px; color: #56992F; font-weight: 600; letter-spacing: 2px; }
+
+  /* ── 主标题 ── */
+  .hero { margin-top: 64px; }
+  .hero h1 { font-size: 108px; line-height: 1.22; font-weight: 900; letter-spacing: 2px; }
+  .hero h1 em { font-style: normal; color: #1B693C; position: relative; }
+  .hero h1 em::after {
+    content: ""; position: absolute; left: 2px; right: 2px; bottom: 6px; height: 26px;
+    background: #E4EC81; z-index: -1; border-radius: 6px;
+  }
+  .hero p { margin-top: 30px; font-size: 38px; color: #23361A; opacity: .82; font-weight: 600; letter-spacing: 1px; }
+  .hero p b { color: #1B693C; }
+
+  /* ── 应用示意（手绘窗口） ── */
+  .app { margin-top: 56px; background: #fff; border-radius: 30px; overflow: hidden;
+         box-shadow: 0 26px 60px rgba(35,54,26,.16), 0 4px 12px rgba(35,54,26,.08);
+         border: 1px solid rgba(27,105,60,.10); }
+  .app .bar { height: 62px; background: #F1F6EF; display: flex; align-items: center; gap: 12px; padding: 0 26px; }
+  .app .bar i { width: 16px; height: 16px; border-radius: 50%; display: block; }
+  .app .bar i:nth-child(1){ background:#E4EC81 } .app .bar i:nth-child(2){ background:#9BC43C } .app .bar i:nth-child(3){ background:#56992F }
+  .app .bar span { margin-left: 14px; font-size: 22px; color: #56992F; font-weight: 700; letter-spacing: 1px; }
+  .app .body { display: grid; grid-template-columns: 250px 1fr; height: 560px; }
+  .side { background: #FAFCFD; border-right: 1px solid rgba(27,105,60,.08); padding: 26px 22px; }
+  .side .it { height: 58px; border-radius: 14px; display: flex; align-items: center; gap: 14px;
+              padding: 0 18px; font-size: 25px; font-weight: 600; color: #23361A; opacity: .78; margin-bottom: 10px; }
+  .side .it i { width: 26px; height: 26px; border-radius: 8px; display: block; }
+  .side .it.on { background: #1B693C; color: #fff; opacity: 1; box-shadow: 0 8px 18px rgba(27,105,60,.28); }
+  .main { padding: 30px 32px; display: flex; flex-direction: column; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card { background: #FAFCFD; border: 1px solid rgba(27,105,60,.10); border-radius: 18px; padding: 20px 22px; }
+  .card .k { font-size: 21px; color: #23361A; opacity: .6; font-weight: 600; }
+  .card .v { font-size: 40px; font-weight: 900; margin-top: 8px; }
+  .card .v small { font-size: 20px; font-weight: 600; opacity: .6; margin-left: 4px; }
+  .c1 .v { color: #1B693C; } .c2 .v { color: #56992F; } .c3 .v { color: #115566; }
+  .hm { margin-top: 20px; background: #FAFCFD; border: 1px solid rgba(27,105,60,.10); border-radius: 18px; padding: 22px 24px; flex: 1; }
+  .hm .k { font-size: 21px; color: #23361A; opacity: .6; font-weight: 600; margin-bottom: 16px; }
+  .hm .grid { display: grid; grid-template-columns: repeat(26, 1fr); gap: 7px; }
+  .hm .grid i { display: block; aspect-ratio: 1; border-radius: 4px; }
+  .prog { margin-top: 20px; background: #1B693C; border-radius: 18px; padding: 20px 24px;
+          display: flex; align-items: center; gap: 20px; color: #fff; }
+  .prog .t { font-size: 24px; font-weight: 700; white-space: nowrap; }
+  .prog .track { flex: 1; height: 16px; border-radius: 8px; background: rgba(255,255,255,.22); overflow: hidden; }
+  .prog .fill { width: 72%; height: 100%; border-radius: 8px; background: #E4EC81; }
+  .prog .pct { font-size: 26px; font-weight: 900; }
+
+  /* ── 特性胶囊 ── */
+  .feats { margin-top: 52px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 26px; }
+  .feat { display: flex; align-items: center; gap: 16px; background: #fff;
+          border: 2px solid rgba(27,105,60,.14); border-radius: 999px; padding: 18px 30px;
+          font-size: 30px; font-weight: 700; box-shadow: 0 6px 16px rgba(35,54,26,.06); }
+  .feat i { width: 18px; height: 18px; border-radius: 50%; display: block; flex: none; }
+  .f1 i { background: #9BC43C; } .f2 i { background: #56992F; }
+  .f3 i { background: #115566; } .f4 i { background: #C4866D; }
+
+  /* ── 底部标语条 ── */
+  .foot { margin-top: auto; margin-left: -84px; margin-right: -84px; background: #1B693C;
+          padding: 34px 84px 40px; display: flex; align-items: center; justify-content: space-between; }
+  .foot .l { color: #fff; font-size: 36px; font-weight: 900; letter-spacing: 2px; }
+  .foot .r { color: #E4EC81; font-size: 26px; font-weight: 600; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+  <div class="blob1"></div><div class="blob2"></div>
+  <div class="wrap">
+
+    <div class="head">
+      <img src="../build/icon-src/icon-512.png" alt="logo">
+      <div>
+        <div class="name">Study Helper</div>
+        <div class="tag">个人学习档案 · Windows 桌面端</div>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h1>我的学习记录<br>终于<em>不散装</em>了</h1>
+      <p>目标 · 学习路线 · 资料库 · 便签墙 · 打卡，<b>一个应用全装下</b></p>
+    </div>
+
+    <div class="app">
+      <div class="bar"><i></i><i></i><i></i><span>Study Helper</span></div>
+      <div class="body">
+        <div class="side">
+          <div class="it"><i style="background:#E4EC81"></i>概览</div>
+          <div class="it on"><i style="background:#E4EC81"></i>学习目标</div>
+          <div class="it"><i style="background:#E4EC81"></i>学习路线</div>
+          <div class="it"><i style="background:#E4EC81"></i>资料库</div>
+          <div class="it"><i style="background:#E4EC81"></i>便签墙</div>
+          <div class="it"><i style="background:#E4EC81"></i>统计</div>
+        </div>
+        <div class="main">
+          <div class="cards">
+            <div class="card c1"><div class="k">本月学习</div><div class="v">1,246<small>分钟</small></div></div>
+            <div class="card c2"><div class="k">连续打卡</div><div class="v">18<small>天</small></div></div>
+            <div class="card c3"><div class="k">归档资料</div><div class="v">57<small>份</small></div></div>
+          </div>
+          <div class="hm">
+            <div class="k">学习热力图</div>
+            <div class="grid" id="hm"></div>
+          </div>
+          <div class="prog">
+            <div class="t">Java 自学大纲 2026</div>
+            <div class="track"><div class="fill"></div></div>
+            <div class="pct">72%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feats">
+      <div class="feat f1"><i></i>数据 100% 存在本地</div>
+      <div class="feat f2"><i></i>不登录 · 不上传 · 不监工</div>
+      <div class="feat f3"><i></i>目标树自动汇总子目标</div>
+      <div class="feat f4"><i></i>六套主题 · 一键备份</div>
+    </div>
+
+    <div class="foot">
+      <div class="l">记录优先，不评价自己</div>
+      <div class="r">Study Helper · 免费</div>
+    </div>
+  </div>
+
+<script>
+  // 热力图：确定性伪随机，绿色由浅到深
+  var lv = ['#EDF2E3', '#E4EC81', '#C6DE84', '#9BC43C', '#56992F', '#1B693C'];
+  var seed = 7;
+  function rnd() { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; }
+  var g = document.getElementById('hm');
+  for (var r = 0; r < 5; r++) {
+    for (var c = 0; c < 26; c++) {
+      var i = document.createElement('i');
+      var x = rnd();
+      i.style.background = lv[x < .18 ? 0 : x < .4 ? 1 : x < .6 ? 2 : x < .78 ? 3 : x < .92 ? 4 : 5];
+      g.appendChild(i);
+    }
+  }
+</script>
+</body>
+</html>

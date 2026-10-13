@@ -1,0 +1,27 @@
+# 依赖与构建产物
+node_modules/
+out/
+dist/
+
+# 日志
+*.log
+
+# IDE / 系统
+.idea/
+.DS_Store
+
+# 运行时数据（用户的学习记录，绝不进版本库）
+data/
+.tmp/
+.workbuddy/
+
+# 截图与宣传图产物（README 用图在 docs/images，源文件在 tools/）
+shots*/
+marketing/
+
+# 验收脚本倒出来的临时日志/探针结果
+*-out.txt
+*-out2.txt
+*-out3.txt
+probe-*.json
+probe-*.txt

@@ -1,0 +1,31 @@
+{
+  "name": "learning-hut",
+  "productName": "Study Helper",
+  "version": "0.1.0",
+  "description": "个人学习档案 · Study Helper",
+  "main": "out/main/index.js",
+  "author": "沈先生",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "icon": "node tools/shoot-icon.cjs && python tools/make-icon.py",
+    "clean:dist": "node tools/rm-dist.cjs",
+    "pack:dir": "node tools/rm-dist.cjs && electron-vite build && electron-builder --config electron-builder.config.cjs --dir",
+    "pack": "node tools/rm-dist.cjs && electron-vite build && electron-builder --config electron-builder.config.cjs --win",
+    "pack:portable": "node tools/rm-dist.cjs && electron-vite build && electron-builder --config electron-builder.config.cjs --win zip"
+  },
+  "dependencies": {
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.4",
+    "electron": "^37.2.0",
+    "electron-builder": "^26.15.3",
+    "electron-vite": "^3.1.0",
+    "playwright-core": "^1.64.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  }
+}

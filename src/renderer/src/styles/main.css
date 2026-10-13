@@ -1,0 +1,516 @@
+/* ============ Study Helper · 设计系统 ============ */
+/* 主题机制：所有颜色都收敛成下面这组变量。
+   一套色卡 = 一个 [data-theme='x'] 块；换主题 = 换 html 上的 data-theme。
+   设置页的迷你预览也直接复用这些块（把 data-theme 挂在小方块上即可）。 */
+:root,
+[data-theme='leaf'] {
+  /* —— 绿野（默认）：原来的配色，保持不动 —— */
+  --paper: #FAFCFD;
+  --card: #FFFFFF;
+  --hl: #E4EC81;        /* 黄绿浅 */
+  --grass: #9BC43C;     /* 草绿 */
+  --leaf: #56992F;      /* 叶绿 */
+  --deep: #1B693C;      /* 深绿 */
+  --lake: #115566;      /* 湖蓝绿 */
+  --ink: #23361A;
+  --ink-2: #55684B;
+  --ink-3: #8a9a80;
+  --ink-rgb: 35, 54, 26;
+  --line: rgba(var(--ink-rgb), 0.10);
+  --line-strong: rgba(var(--ink-rgb), 0.18);
+  --tint: #F2F6EC;      /* 极浅绿灰底 */
+  --danger: #C4866D;
+  --err: #b0603f;
+  --on-deep: #F4FAF3;   /* 压在 --deep 上的字色 */
+  --on-danger: #FFFFFF;
+  --side-a: #E7EFDA;    /* 侧栏渐变 */
+  --side-b: #DDE8C9;
+  --side-ink: #3d5230;
+  --frame-a: #FFFDF6;   /* 设置页相框 */
+  --frame-b: #FDF9EC;
+  --frame-line: rgba(222, 204, 158, .6);
+  --frame-dash: rgba(196, 134, 109, .5);
+  --tex-bg: #FDFEFB;    /* 纸纹底 */
+  --note-ink: #2c3327;  /* 便签上永远用深墨（便签本身是浅色纸） */
+  --note-ink-2: #6f7a68;
+  --note-1: #E4EC81; --note-2: #FAFCFD; --note-3: #D8E8D4; --note-4: #F5E9C9; --note-5: #DDE6EA;
+  --heat-0: #F0F4E9; --heat-1: #DDE7B4; --heat-2: #B8D488; --heat-3: #7FB357; --heat-4: #56992F; --heat-5: #1B693C;
+  --sh: 35, 54, 26;     /* 阴影色 */
+  --veil: rgba(35, 54, 26, .30);  /* 弹窗遮罩 */
+
+  --radius: 14px;
+  --radius-s: 9px;
+  --shadow-1: 0 1px 2px rgba(var(--sh), .05), 0 2px 8px rgba(var(--sh), .06);
+  --shadow-2: 0 2px 4px rgba(var(--sh), .06), 0 8px 24px rgba(var(--sh), .10);
+  --titlebar-h: 40px;
+  --sidebar-w: 216px;
+}
+
+/* —— 番石榴（芭乐配色）：粉 + 橄榄绿 + 奶黄，色卡 5 色全用 —— */
+[data-theme='guava'] {
+  --paper: #FDF6F1;
+  --card: #FFFFFF;
+  --hl: #FDD7D0;       /* 浅粉：高亮 */
+  --grass: #F19E96;    /* 粉：主强调 */
+  --leaf: #B2BA69;     /* 橄榄绿：次强调（标签/边框） */
+  --deep: #8E5A52;     /* 深棕粉：深字/深强调 */
+  --lake: #EAE7B4;     /* 奶黄绿：三级强调（链接/芯片） */
+  --ink: #5A4038;
+  --ink-2: #8A6E64;
+  --ink-3: #B89A90;
+  --ink-rgb: 90, 64, 56;
+  --line: rgba(var(--ink-rgb), 0.11);
+  --line-strong: rgba(var(--ink-rgb), 0.20);
+  --tint: #FBEFF0;
+  --danger: #C0703F;
+  --err: #b0603f;
+  --on-deep: #FFF6F4;
+  --on-danger: #FFFFFF;
+  --side-a: #F8ECD7;   /* 奶白：侧栏渐变（色卡色） */
+  --side-b: #FDD7D0;   /* 粉：侧栏渐变（色卡色） */
+  --side-ink: #8E5A52;
+  --frame-a: #FDF6F1;
+  --frame-b: #F8ECD7;
+  --frame-line: rgba(242, 158, 150, .7);
+  --frame-dash: rgba(178, 186, 105, .5);
+  --tex-bg: #FFFBF8;
+  --note-ink: #5A4038;
+  --note-ink-2: #8A6E64;
+  /* 便签纸 = 芭乐色卡原 5 色 */
+  --note-1: #FDD7D0; --note-2: #EAE7B4; --note-3: #F19E96; --note-4: #B2BA69; --note-5: #F8ECD7;
+  --heat-0: #FDF6F1; --heat-1: #FBE3DC; --heat-2: #F8C9C2; --heat-3: #F19E96; --heat-4: #E07B72; --heat-5: #C4564E;
+  --sh: 90, 64, 56;
+  --veil: rgba(90, 64, 56, .30);
+}
+
+/* —— 咸柠汽水：柠檬黄 + 青柠 + 薄荷 + 青蓝，色卡 4 色全用 —— */
+[data-theme='soda'] {
+  --paper: #F7FAEF;
+  --card: #FFFFFF;
+  --hl: #E3E17C;       /* 柠檬黄：高亮 */
+  --grass: #C3DC89;    /* 青柠：主强调 */
+  --leaf: #96CAA4;     /* 薄荷绿：次强调 */
+  --deep: #2F7A6B;     /* 深青：深字/深强调 */
+  --lake: #96CFC1;     /* 青蓝：三级强调（链接/芯片） */
+  --ink: #2A4A40;
+  --ink-2: #4E7268;
+  --ink-3: #8AA89E;
+  --ink-rgb: 42, 74, 64;
+  --line: rgba(var(--ink-rgb), 0.10);
+  --line-strong: rgba(var(--ink-rgb), 0.19);
+  --tint: #EFF5E1;
+  --danger: #C0755A;
+  --err: #A45A3F;
+  --on-deep: #F3FBF4;
+  --on-danger: #FFFFFF;
+  --side-a: #E3E17C;   /* 柠檬黄：侧栏渐变（色卡色） */
+  --side-b: #C3DC89;   /* 青柠：侧栏渐变（色卡色） */
+  --side-ink: #3A5240;
+  --frame-a: #FDFEF2;
+  --frame-b: #F6FADF;
+  --frame-line: rgba(195, 220, 137, .75);
+  --frame-dash: rgba(150, 207, 193, .55);
+  --tex-bg: #FBFDF2;
+  --note-ink: #2A4A40;
+  --note-ink-2: #4E7268;
+  /* 便签纸 = 色卡 4 色 + 浅青柠 */
+  --note-1: #E3E17C; --note-2: #C3DC89; --note-3: #96CAA4; --note-4: #96CFC1; --note-5: #EAF3DC;
+  --heat-0: #F7FAEF; --heat-1: #EAF3DC; --heat-2: #D2E6A8; --heat-3: #C3DC89; --heat-4: #9BC86E; --heat-5: #5E9A5C;
+  --sh: 42, 74, 64;
+  --veil: rgba(42, 74, 64, .30);
+}
+
+/* —— 雪顶山楂：山楂红 + 奶油 + 冰蓝，色卡 4 色全用 —— */
+[data-theme='hawthorn'] {
+  --paper: #FDF8F2;
+  --card: #FFFFFF;
+  --hl: #FDF5DC;       /* 奶油：高亮 */
+  --grass: #DA2E53;    /* 亮红：主强调 */
+  --leaf: #D40D3E;     /* 深红：次强调 */
+  --deep: #9E0A2E;     /* 更深红：深字/深强调 */
+  --lake: #C9EAF8;     /* 冰蓝：三级强调（雪顶的冷调） */
+  --ink: #5A2230;
+  --ink-2: #8A4A56;
+  --ink-3: #B98A92;
+  --ink-rgb: 90, 34, 48;
+  --line: rgba(var(--ink-rgb), 0.11);
+  --line-strong: rgba(var(--ink-rgb), 0.20);
+  --tint: #FBF5F1;
+  --danger: #C0703A;
+  --err: #B0603F;
+  --on-deep: #FFF6F6;
+  --on-danger: #FFFFFF;
+  --side-a: #FDF5DC;   /* 奶油：侧栏渐变（色卡色） */
+  --side-b: #FBE3E8;   /* 浅红：侧栏渐变 */
+  --side-ink: #7E2B3D;
+  --frame-a: #FFFDF6;
+  --frame-b: #FDF6EA;
+  --frame-line: rgba(222, 204, 158, .6);
+  --frame-dash: rgba(212, 13, 62, .35);
+  --tex-bg: #FEFCF7;
+  --note-ink: #5A2230;
+  --note-ink-2: #7E4A56;
+  /* 便签纸 = 色卡 4 色 + 浅粉 */
+  --note-1: #FDF5DC; --note-2: #C9EAF8; --note-3: #FBD0D8; --note-4: #DA2E53; --note-5: #D40D3E;
+  --heat-0: #FDF8F2; --heat-1: #FDF5DC; --heat-2: #F8C9D3; --heat-3: #DA2E53; --heat-4: #D40D3E; --heat-5: #9E0A2E;
+  --sh: 90, 34, 48;
+  --veil: rgba(90, 34, 48, .30);
+}
+
+/* —— 橘子汽水：蜜桃 + 橘 + 汽水青蓝，色卡 4 色全用 —— */
+[data-theme='orange'] {
+  --paper: #FFF6EF;
+  --card: #FFFFFF;
+  --hl: #FFEBD5;       /* 蜜桃奶：高亮 */
+  --grass: #FF8D65;    /* 橘：主强调 */
+  --leaf: #FFC4AF;     /* 蜜桃：次强调 */
+  --deep: #D4602F;     /* 深橘：深字/深强调 */
+  --lake: #8FDBE0;     /* 汽水青蓝：三级强调 */
+  --ink: #5C3522;
+  --ink-2: #8A5A45;
+  --ink-3: #B98C76;
+  --ink-rgb: 92, 53, 34;
+  --line: rgba(var(--ink-rgb), 0.11);
+  --line-strong: rgba(var(--ink-rgb), 0.20);
+  --tint: #FDF1E4;
+  --danger: #A34C4C;
+  --err: #A4503A;
+  --on-deep: #FFF7F2;
+  --on-danger: #FFFFFF;
+  --side-a: #FFEBD5;   /* 蜜桃奶：侧栏渐变（色卡色） */
+  --side-b: #FFC4AF;   /* 蜜桃：侧栏渐变（色卡色） */
+  --side-ink: #7A4A2C;
+  --frame-a: #FFFDF7;
+  --frame-b: #FDF2E4;
+  --frame-line: rgba(255, 196, 175, .85);
+  --frame-dash: rgba(143, 219, 224, .55);
+  --tex-bg: #FFFCF7;
+  --note-ink: #5C3522;
+  --note-ink-2: #8A5A45;
+  /* 便签纸 = 色卡 4 色 + 浅桃 */
+  --note-1: #FFEBD5; --note-2: #FFC4AF; --note-3: #FF8D65; --note-4: #8FDBE0; --note-5: #FFF1E6;
+  --heat-0: #FFF6EF; --heat-1: #FFEBD5; --heat-2: #FFC4AF; --heat-3: #FF8D65; --heat-4: #F0743F; --heat-5: #D4602F;
+  --sh: 92, 53, 34;
+  --veil: rgba(92, 53, 34, .30);
+}
+
+/* —— 格雷系：近黑底 + 灰阶 + 一点粉（唯一暗色主题）—— */
+[data-theme='allgrey'] {
+  --paper: #1C1E1F;    /* 色卡基色 */
+  --card: #26282B;
+  --hl: #FD7C9F;       /* 一点粉：高亮 */
+  --grass: #FD7C9F;    /* 粉：主强调 */
+  --leaf: #F58AAE;     /* 浅粉：次强调 */
+  --deep: #C4567E;     /* 深粉：深强调 */
+  --lake: #9DC3CE;     /* 冷灰蓝：三级强调 */
+  --ink: #E9EBEC;
+  --ink-2: #B7BBBE;
+  --ink-3: #8A9094;
+  --ink-rgb: 233, 235, 236;
+  --line: rgba(var(--ink-rgb), 0.12);
+  --line-strong: rgba(var(--ink-rgb), 0.22);
+  --tint: #26292C;
+  --danger: #E5726F;
+  --err: #E0917A;
+  --on-deep: #1A1416;
+  --on-danger: #221A1A;
+  --side-a: #303336;
+  --side-b: #1C1E1F;
+  --side-ink: #C9CDD0;
+  --frame-a: #2B2E31;
+  --frame-b: #26292C;
+  --frame-line: rgba(233, 235, 236, .14);
+  --frame-dash: rgba(253, 124, 159, .40);
+  --tex-bg: #222529;
+  --note-ink: #26292B;
+  --note-ink-2: #6E7478;
+  /* 便签纸 = 灰阶 + 一点粉 */
+  --note-1: #FD7C9F; --note-2: #F58AAE; --note-3: #585858; --note-4: #B7BBBE; --note-5: #E9EBEC;
+  --heat-0: #2A2329; --heat-1: #4A2A38; --heat-2: #6E2F47; --heat-3: #9A3A57; --heat-4: #C4567E; --heat-5: #FD7C9F;
+  --sh: 0, 0, 0;
+  --veil: rgba(0, 0, 0, .62);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #app { height: 100%; }
+html { background: var(--paper); transition: background-color .24s ease; }
+
+body {
+  font-family: "Microsoft YaHei UI", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow: hidden;
+  user-select: none;
+  transition: background-color .24s ease, color .24s ease;
+}
+
+input, textarea, select, button { font: inherit; color: inherit; }
+input, textarea { user-select: text; }
+
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--ink) 14%, transparent); border-radius: 5px; border: 2px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--ink) 26%, transparent); background-clip: content-box; border: 2px solid transparent; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------- 通用卡片 ---------- */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  border: 1px solid color-mix(in srgb, var(--ink) 5%, transparent);
+  transition: box-shadow .22s ease, transform .22s ease, background-color .24s ease, border-color .24s ease;
+}
+.card.pad { padding: 18px 20px; }
+.card.hover:hover { box-shadow: var(--shadow-2); transform: translateY(-2px); }
+
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  letter-spacing: .06em;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+.card-title::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 2px 6px 2px 6px;
+  background: var(--grass);
+  flex: none;
+}
+
+/* ---------- 按钮 ---------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--card);
+  color: var(--ink-2);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all .18s ease;
+  white-space: nowrap;
+}
+.btn:hover { border-color: var(--leaf); color: var(--leaf); background: color-mix(in srgb, var(--grass) 10%, var(--card)); }
+.btn.primary {
+  background: var(--deep);
+  border-color: var(--deep);
+  color: var(--on-deep);
+}
+.btn.primary:hover { background: var(--leaf); border-color: var(--leaf); color: var(--on-deep); }
+.btn.soft { background: var(--tint); border-color: transparent; }
+.btn.ghost { border-color: transparent; background: transparent; }
+.btn.ghost:hover { background: var(--tint); }
+.btn.danger:hover { border-color: var(--danger); color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, var(--card)); }
+.btn.sm { padding: 3px 10px; font-size: 12px; }
+.btn:disabled { opacity: .45; cursor: default; pointer-events: none; }
+
+/* ---------- 表单 ---------- */
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field > label { font-size: 12px; color: var(--ink-3); }
+.input, .textarea, .select {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-s);
+  padding: 7px 11px;
+  background: var(--card);
+  outline: none;
+  transition: border-color .18s, box-shadow .18s;
+  width: 100%;
+}
+.input:focus, .textarea:focus, .select:focus {
+  border-color: var(--grass);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--grass) 18%, transparent);
+}
+.textarea { resize: vertical; min-height: 84px; }
+.err-hint { color: var(--err); font-size: 12.5px; text-align: center; margin-top: 4px; }
+
+/* 撑满内容的滚动容器 */
+.fill-scroll { flex: 1; min-height: 0; overflow-y: auto; }
+
+/* ---------- 标签 chips ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font-size: 12px;
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--hl) 40%, transparent);
+  color: var(--ink-2);
+  border: 1px solid color-mix(in srgb, var(--grass) 25%, transparent);
+}
+
+/* ---------- 状态徽标 ---------- */
+.badge {
+  font-size: 12px;
+  padding: 1px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.badge.active, .badge.doing { background: color-mix(in srgb, var(--grass) 22%, transparent); color: color-mix(in srgb, var(--leaf) 72%, var(--ink)); }
+.badge.done, .badge.bloom { background: color-mix(in srgb, var(--deep) 14%, transparent); color: var(--deep); }
+.badge.paused, .badge.seedling { background: color-mix(in srgb, var(--hl) 50%, transparent); color: color-mix(in srgb, var(--hl) 35%, var(--ink)); }
+.badge.abandoned, .badge.todo { background: color-mix(in srgb, var(--ink) 8%, transparent); color: var(--ink-3); }
+
+/* ---------- 页面骨架 ---------- */
+/* 页面默认撑满可视高度；子元素默认保持自然高度，需要撑满的用 flex:1 覆盖 */
+.page {
+  padding: 22px 26px 40px;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  transition: background-color .24s ease;
+}
+.page > :where(*) { flex: none; }
+.page-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px; flex: none; }
+.page-head h1 { font-size: 20px; font-weight: 650; letter-spacing: .02em; }
+.page-head .sub { color: var(--ink-3); font-size: 13px; }
+.page-head .spacer { flex: 1; }
+
+/* ---------- 弹窗 ---------- */
+.overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: var(--veil);
+  display: flex; align-items: center; justify-content: center;
+  animation: fadeIn .18s ease;
+}
+.modal {
+  background: var(--card);
+  border-radius: 18px;
+  box-shadow: var(--shadow-2);
+  width: min(560px, calc(100vw - 80px));
+  max-height: calc(100vh - 120px);
+  display: flex; flex-direction: column;
+  overflow: hidden;           /* 子元素严格裁进圆角，杜绝角部破洞 */
+  animation: popIn .22s cubic-bezier(.22, 1, .36, 1);
+}
+.modal-head {
+  padding: 16px 22px 12px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+}
+.modal-head h2 { font-size: 16px; font-weight: 600; }
+.modal-body { padding: 18px 22px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+.modal-foot { padding: 12px 22px 18px; display: flex; justify-content: flex-end; gap: 10px; }
+
+@keyframes fadeIn { from { opacity: 0; } }
+@keyframes popIn { from { opacity: 0; transform: translateY(14px) scale(.98); } }
+
+/* ---------- 空状态 ---------- */
+.empty {
+  text-align: center;
+  color: var(--ink-3);
+  padding: 34px 0;
+  font-size: 13px;
+}
+.empty .leaf-mark { font-size: 26px; opacity: .5; margin-bottom: 8px; }
+
+/* ---------- 进度条 ---------- */
+.progress {
+  height: 7px; border-radius: 99px;
+  background: var(--tint);
+  overflow: hidden;
+}
+.progress > i {
+  display: block; height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--grass), var(--leaf));
+  transition: width .4s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* ---------- 纸张噪点（全局极轻） ---------- */
+.grain::after {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.14 0 0 0 0 0.21 0 0 0 0 0.10 0 0 0 0.025 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- 纸纹样式（参考手帐内页，颜色随主题） ----------
+  paper-grid   方格本   —— 记录纸
+  paper-lines  横线本   —— 感想纸
+  paper-dots   圆点本   —— 卡片底纹
+  paper-diamond 菱形点阵 —— 大事记 / 时间线
+  paper-stars  小星星   —— 那年今日 / 随机感想
+------------------------------------------------------------ */
+.paper-grid {
+  background-color: var(--tex-bg);
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--deep) 7.5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--deep) 7.5%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.paper-lines {
+  background-color: var(--tex-bg);
+  background-image: linear-gradient(color-mix(in srgb, var(--lake) 10%, transparent) 1px, transparent 1px);
+  background-size: 100% 26px;
+}
+.paper-dots {
+  background-color: var(--tex-bg);
+  background-image: radial-gradient(color-mix(in srgb, var(--grass) 34%, transparent) 1.1px, transparent 1.1px);
+  background-size: 18px 18px;
+}
+.paper-diamond {
+  background-color: var(--tex-bg);
+  background-image:
+    radial-gradient(color-mix(in srgb, var(--leaf) 30%, transparent) 1px, transparent 1px),
+    radial-gradient(color-mix(in srgb, var(--leaf) 18%, transparent) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+.paper-stars {
+  background-color: var(--tex-bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpath d='M12 8 l1.5 3.2 3.5 .4 -2.6 2.4 .7 3.4 -3.1 -1.7 -3.1 1.7 .7 -3.4 -2.6 -2.4 3.5 -.4 z M44 40 l1.2 2.5 2.8 .3 -2.1 1.9 .6 2.7 -2.5 -1.4 -2.5 1.4 .6 -2.7 -2.1 -1.9 2.8 -.3 z' fill='%23E4EC81' fill-opacity='.55'/%3E%3C/svg%3E");
+}
+/* 小星星是 SVG 图，颜色必须写在 data URI 里，没法用变量，
+   所以按主题给一份同形状、只换 fill 的覆盖（绿野保持原样不动）。 */
+[data-theme='guava'] .paper-stars {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpath d='M12 8 l1.5 3.2 3.5 .4 -2.6 2.4 .7 3.4 -3.1 -1.7 -3.1 1.7 .7 -3.4 -2.6 -2.4 3.5 -.4 z M44 40 l1.2 2.5 2.8 .3 -2.1 1.9 .6 2.7 -2.5 -1.4 -2.5 1.4 .6 -2.7 -2.1 -1.9 2.8 -.3 z' fill='%23F19E96' fill-opacity='.55'/%3E%3C/svg%3E");
+}
+[data-theme='soda'] .paper-stars {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpath d='M12 8 l1.5 3.2 3.5 .4 -2.6 2.4 .7 3.4 -3.1 -1.7 -3.1 1.7 .7 -3.4 -2.6 -2.4 3.5 -.4 z M44 40 l1.2 2.5 2.8 .3 -2.1 1.9 .6 2.7 -2.5 -1.4 -2.5 1.4 .6 -2.7 -2.1 -1.9 2.8 -.3 z' fill='%23C3DC89' fill-opacity='.6'/%3E%3C/svg%3E");
+}
+[data-theme='hawthorn'] .paper-stars {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpath d='M12 8 l1.5 3.2 3.5 .4 -2.6 2.4 .7 3.4 -3.1 -1.7 -3.1 1.7 .7 -3.4 -2.6 -2.4 3.5 -.4 z M44 40 l1.2 2.5 2.8 .3 -2.1 1.9 .6 2.7 -2.5 -1.4 -2.5 1.4 .6 -2.7 -2.1 -1.9 2.8 -.3 z' fill='%23DA2E53' fill-opacity='.5'/%3E%3C/svg%3E");
+}
+[data-theme='orange'] .paper-stars {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpath d='M12 8 l1.5 3.2 3.5 .4 -2.6 2.4 .7 3.4 -3.1 -1.7 -3.1 1.7 .7 -3.4 -2.6 -2.4 3.5 -.4 z M44 40 l1.2 2.5 2.8 .3 -2.1 1.9 .6 2.7 -2.5 -1.4 -2.5 1.4 .6 -2.7 -2.1 -1.9 2.8 -.3 z' fill='%23FF8D65' fill-opacity='.55'/%3E%3C/svg%3E");
+}
+[data-theme='allgrey'] .paper-stars {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpath d='M12 8 l1.5 3.2 3.5 .4 -2.6 2.4 .7 3.4 -3.1 -1.7 -3.1 1.7 .7 -3.4 -2.6 -2.4 3.5 -.4 z M44 40 l1.2 2.5 2.8 .3 -2.1 1.9 .6 2.7 -2.5 -1.4 -2.5 1.4 .6 -2.7 -2.1 -1.9 2.8 -.3 z' fill='%23FD7C9F' fill-opacity='.40'/%3E%3C/svg%3E");
+}
+/* 纸纹容器需要纯色内衬，避免文字压在纹路上 */
+.paper-veil { background: color-mix(in srgb, var(--paper) 78%, transparent); border-radius: inherit; }
+
+/* ---------- 视图切换过渡 ---------- */
+.view-enter-active { transition: opacity .22s ease, transform .22s ease; }
+.view-leave-active { transition: opacity .12s ease; position: absolute; width: 100%; }
+.view-enter-from { opacity: 0; transform: translateY(8px); }
+.view-leave-to { opacity: 0; }
+
+/* ---------- 列表行 ---------- */
+.row-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 4px;
+  border-bottom: 1px dashed var(--line);
+}
+.row-item:last-child { border-bottom: none; }
+
+/* ---------- 撕纸边卡片（装饰用，轻微） ---------- */
+.torn-top { position: relative; }
+.torn-top::before {
+  content: "";
+  position: absolute; top: -6px; left: 0; right: 0; height: 6px;
+  background: var(--card);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='6'%3E%3Cpath d='M0 6 L0 3 Q10 0 20 3 T40 3 T60 2 T80 4 T100 3 T120 1 T140 3 T160 4 T180 2 T200 3 T220 2 T240 3 L240 6 Z' fill='black'/%3E%3C/svg%3E") repeat-x;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='6'%3E%3Cpath d='M0 6 L0 3 Q10 0 20 3 T40 3 T60 2 T80 4 T100 3 T120 1 T140 3 T160 4 T180 2 T200 3 T220 2 T240 3 L240 6 Z' fill='black'/%3E%3C/svg%3E") repeat-x;
+  mask-size: 240px 6px;
+}
